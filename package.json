@@ -1,0 +1,34 @@
+{
+  "name": "guildmaster-io",
+  "version": "0.1.0",
+  "description": "MultiversX DeFi Intelligence Platform - AI-powered protocol monitoring, guardrails, staking yield optimization on GCP",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "nx serve",
+    "build": "nx build",
+    "test": "nx test",
+    "lint": "nx lint",
+    "bootstrap": "bash scripts/bootstrap.sh",
+    "deploy": "bash scripts/deploy.sh",
+    "monitor": "bash scripts/monitor.sh"
+  },
+  "keywords": [
+    "multiversx",
+    "defi",
+    "blockchain",
+    "dapp",
+    "smart-contracts",
+    "ai",
+    "protocol-monitoring"
+  ],
+  "author": "Gzeu",
+  "license": "MIT",
+  "devDependencies": {
+    "nx": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
