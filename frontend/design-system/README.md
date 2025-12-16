@@ -1,135 +1,219 @@
 # 🎨 Guildmaster.io Design System
 
-A production-ready design system for Web3 DeFi applications built with React, TypeScript, and Tailwind CSS.
+**Production-ready design system for Web3 DeFi applications built with React, TypeScript, and Tailwind CSS.**
 
-## Features
-
-- 🎨 **Comprehensive Component Library** - 8+ battle-tested components
-- 🌙 **Dark Theme Optimized** - Built for extended viewing sessions
-- ♿ **Accessible** - WCAG 2.1 AA compliant
-- 🎭 **Animations** - Smooth micro-interactions
-- 📱 **Responsive** - Mobile-first approach
-- 🔧 **Customizable** - Design tokens for easy theming
-- 📦 **Tree-shakeable** - Optimized bundle size
-
-## Installation
+## 🚀 Quick Start
 
 ```bash
-npm install class-variance-authority clsx tailwind-merge
+npm install
 ```
 
-## Quick Start
-
 ```tsx
-import { Button, Card, Badge } from '@/design-system';
+import { Button, Card, WalletConnectButton } from '@/design-system'
 
 function App() {
   return (
     <Card variant="glass" hover>
-      <h2>Total Staked</h2>
-      <Badge variant="success">Active</Badge>
-      <Button variant="primary" size="lg">
-        Stake EGLD
-      </Button>
+      <h2>Welcome to Guildmaster.io</h2>
+      <WalletConnectButton onConnect={(wallet) => console.log(wallet)} />
     </Card>
-  );
+  )
 }
 ```
 
-## Components
+## 📦 What's Included
 
-### Button
-6 variants × 4 sizes = 24 combinations
+### Core UI Components (15)
+- ✅ **Button** - 6 variants × 4 sizes
+- ✅ **Card** - Glassmorphism support
+- ✅ **Badge** - Status indicators
+- ✅ **Input** - Validation states
+- ✅ **Modal** - Accessible dialogs
+- ✅ **Tooltip** - Smart positioning
+- ✅ **Progress** - Animated bars
+- ✅ **Toast** - Notification system
+- ✅ **Dropdown** - Select component
+- ✅ **Table** - Data display
+- ✅ **Tabs** - Navigation
+- ✅ **Switch** - Toggle
+- ✅ **Accordion** - Expandable
+- ✅ **Skeleton** - Loading states
 
-```tsx
-<Button variant="primary" size="lg" isLoading>
-  Connect Wallet
-</Button>
+### Web3 Components (4)
+- ✅ **WalletConnectButton** - xPortal, DeFi Wallet, Ledger, Web Wallet
+- ✅ **AddressDisplay** - Copy & Explorer links
+- ✅ **TokenInput** - Balance & USD value
+- ✅ **TransactionStatus** - Progress tracking
+
+### Layout System (8)
+- ✅ **Container** - Responsive wrapper
+- ✅ **Grid** - Auto-responsive grid
+- ✅ **Stack/HStack/VStack** - Flexbox layouts
+- ✅ **Flex** - Low-level control
+- ✅ **Divider** - Visual separators
+- ✅ **Spacer** - Invisible spacing
+- ✅ **Box** - Fundamental primitive
+
+### Layout Templates (2)
+- ✅ **Page** - Consistent page structure
+- ✅ **Section** - Content sections
+
+### Design Tokens
+- ✅ **Colors** - Dark theme optimized
+- ✅ **Typography** - Font system
+- ✅ **Spacing** - 4px base scale
+- ✅ **Shadows** - Including glow effects
+- ✅ **Animations** - Smooth transitions
+
+### Brand Assets
+- ✅ **Logo** - Professional gradient design
+- ✅ **Hero Visual** - 3D blockchain visualization
+- ✅ **Dashboard Graphic** - Glassmorphism mockup
+
+## 🎨 Design Philosophy
+
+1. **Dark-First** - Optimized for extended viewing
+2. **Web3 Native** - Built for blockchain interactions
+3. **Accessible** - WCAG 2.1 AA compliant
+4. **Performant** - Tree-shakeable, optimized bundles
+5. **Type-Safe** - Full TypeScript support
+
+## 📚 Documentation
+
+- [Component API](./components/README.md)
+- [Layout System](./layouts/README.md)
+- [Design Tokens](./tokens.ts)
+- [Brand Guidelines](../public/images/brand/README.md)
+
+## 🔧 Configuration
+
+### PostCSS
+```js
+// postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
 ```
 
-### Card
-Glassmorphism and gradient variants
+### Tailwind
+```ts
+// tailwind.config.ts
+import { designTokens } from './design-system/tokens'
 
-```tsx
-<Card variant="glass" padding="lg" hover>
-  <CardHeader>
-    <CardTitle>Dashboard</CardTitle>
-  </CardHeader>
-  <CardContent>{/* content */}</CardContent>
-</Card>
+export default {
+  theme: {
+    extend: {
+      colors: designTokens.colors,
+      // ...
+    },
+  },
+}
 ```
 
-### Badge
-Status indicators with glow effects
+## 🎯 Usage Examples
 
+### Web3 Wallet Connection
 ```tsx
-<Badge variant="success" dot>
-  Live
-</Badge>
-```
+import { WalletConnectButton } from '@/design-system'
 
-### Input
-Accessible form inputs with validation
-
-```tsx
-<Input
-  label="Amount"
-  placeholder="0.00"
-  rightIcon="EGLD"
-  error="Insufficient balance"
+<WalletConnectButton
+  onConnect={(walletId) => console.log(walletId)}
+  address={userAddress}
+  balance="1234.56"
 />
 ```
 
-### Modal
-Accessible dialogs with ESC and backdrop close
-
+### Toast Notifications
 ```tsx
-<Modal isOpen={isOpen} onClose={onClose} title="Confirm">
-  {/* Modal content */}
-</Modal>
+import { useToast } from '@/design-system'
+
+const { showToast } = useToast()
+
+showToast({
+  type: 'success',
+  title: 'Transaction Complete',
+  description: 'Your tokens have been staked',
+})
 ```
 
-### Progress
-Animated progress bars with gradients
-
+### Data Table
 ```tsx
-<Progress value={75} variant="success" animated showLabel />
+import { Table } from '@/design-system'
+
+const columns = [
+  { key: 'name', header: 'Protocol' },
+  { key: 'tvl', header: 'TVL', render: (item) => `$${item.tvl}M` },
+]
+
+<Table
+  data={protocols}
+  columns={columns}
+  keyExtractor={(item) => item.id}
+  striped
+  hoverable
+/>
 ```
 
-### Tooltip
-Smart positioning tooltips
-
+### Responsive Grid
 ```tsx
-<Tooltip content="View Details" position="top">
-  <Button>Info</Button>
-</Tooltip>
+import { Grid, GridItem } from '@/design-system'
+
+<Grid cols={3} gap="lg">
+  <Card>Item 1</Card>
+  <Card>Item 2</Card>
+  <GridItem colSpan="full">
+    <Card>Full width</Card>
+  </GridItem>
+</Grid>
 ```
 
-## Design Tokens
+## ♿ Accessibility
 
-All design decisions are centralized in `tokens.ts`:
+- Keyboard navigation support
+- Focus states with ring indicators
+- Semantic HTML elements
+- ARIA attributes
+- Color contrast WCAG AA
+- Screen reader friendly
 
-- Colors (primary, accent, semantic)
-- Typography (font families, sizes, weights)
-- Spacing (4px base scale)
-- Shadows (including glow effects)
-- Border radius
-- Z-index layers
-- Transitions
+## 🎨 Customization
 
-## Best Practices
+```tsx
+import { designTokens } from '@/design-system/tokens'
 
-✅ **Do:**
-- Use design tokens for consistency
-- Leverage component variants
-- Test in dark theme
-- Ensure keyboard accessibility
+const customTokens = {
+  ...designTokens,
+  colors: {
+    ...designTokens.colors,
+    primary: {
+      ...designTokens.colors.primary,
+      500: '#your-color',
+    },
+  },
+}
+```
 
-❌ **Don't:**
-- Override with !important
-- Use inline styles
-- Skip responsive testing
+## 📊 Bundle Size
 
-## License
+- **Tree-shakeable**: Import only what you use
+- **Optimized**: Minimal runtime overhead
+- **No dependencies**: Core components use only React
 
-MIT - See LICENSE file
+## 🚦 Status
+
+- ✅ **Production Ready**
+- ✅ **TypeScript Support**
+- ✅ **Dark Theme Optimized**
+- ✅ **Mobile Responsive**
+- ✅ **Accessibility Tested**
+
+## 📄 License
+
+MIT License - See LICENSE file
+
+---
+
+**Built with ❤️ for the MultiversX Ecosystem**

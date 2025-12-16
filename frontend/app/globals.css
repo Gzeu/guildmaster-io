@@ -2,36 +2,153 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 10, 14, 39;
-  --background-end-rgb: 10, 14, 39;
-}
+@layer base {
+  :root {
+    --color-dark-bg: #0a0e27;
+    --color-dark-card: #151932;
+    --color-dark-card-hover: #1a1f3a;
+    --color-dark-border: #1e2442;
+  }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  * {
+    @apply border-border;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-dark-bg text-white antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-500/50;
   }
 }
 
-.card {
-  @apply bg-dark-card border border-dark-border rounded-lg p-6;
+@layer components {
+  /* Animation classes */
+  .animate-in {
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .zoom-in {
+    animation-name: zoomIn;
+  }
+
+  .zoom-in-95 {
+    animation-name: zoomIn95;
+  }
+
+  .slide-in-from-right-full {
+    animation-name: slideInFromRight;
+  }
+
+  /* Glow effect utility */
+  .glow {
+    box-shadow: 0 0 20px rgba(0, 136, 230, 0.3);
+  }
+
+  .glow-strong {
+    box-shadow: 0 0 30px rgba(0, 136, 230, 0.5);
+  }
+
+  /* Glass morphism utility */
+  .glass {
+    @apply bg-dark-card/50 backdrop-blur-lg border border-dark-border/50;
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 to-accent-cyan bg-clip-text text-transparent;
+  }
 }
 
-.btn-primary {
-  @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors;
+@layer utilities {
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.btn-secondary {
-  @apply bg-dark-card hover:bg-dark-border text-white font-semibold py-2 px-4 rounded-lg border border-dark-border transition-colors;
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomIn95 {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Focus visible styles */
+.focus-visible:focus {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-dark-bg;
+}
+
+/* Selection styles */
+::selection {
+  @apply bg-primary-500/30 text-white;
+}
+
+::-moz-selection {
+  @apply bg-primary-500/30 text-white;
 }
