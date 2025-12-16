@@ -1,23 +1,26 @@
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+'use client'
+
+import { cva, type VariantProps } from 'class-variance-authority'
+import { HTMLAttributes, forwardRef } from 'react'
+import { cn } from '@/lib/utils'
 
 const badgeVariants = cva(
-  'inline-flex items-center font-semibold rounded-full transition-all duration-200',
+  'inline-flex items-center font-semibold transition-all duration-300',
   {
     variants: {
       variant: {
-        default: 'bg-dark-bg-tertiary text-dark-text-secondary',
-        primary: 'bg-primary-500/20 text-primary-400 border border-primary-500/30',
-        success: 'bg-success-DEFAULT/20 text-success-DEFAULT border border-success-DEFAULT/30',
-        warning: 'bg-warning-DEFAULT/20 text-warning-DEFAULT border border-warning-DEFAULT/30',
-        error: 'bg-error-DEFAULT/20 text-error-DEFAULT border border-error-DEFAULT/30',
-        info: 'bg-info-DEFAULT/20 text-info-DEFAULT border border-info-DEFAULT/30',
-        glow: 'bg-primary-500/20 text-primary-400 border border-primary-500/30 shadow-glow',
+        default: 'bg-dark-card border border-dark-border text-gray-300',
+        primary: 'bg-primary-500/20 border border-primary-500/50 text-primary-400',
+        success: 'bg-success-DEFAULT/20 border border-success-DEFAULT/50 text-success-light',
+        warning: 'bg-warning-DEFAULT/20 border border-warning-DEFAULT/50 text-warning-light',
+        error: 'bg-error-DEFAULT/20 border border-error-DEFAULT/50 text-error-light',
+        info: 'bg-info-DEFAULT/20 border border-info-DEFAULT/50 text-info-light',
+        glow: 'bg-primary-500/10 border border-primary-500 text-primary-400 shadow-glow',
       },
       size: {
-        sm: 'px-2 py-0.5 text-xs',
-        md: 'px-3 py-1 text-sm',
-        lg: 'px-4 py-1.5 text-base',
+        sm: 'px-2 py-0.5 text-xs rounded',
+        md: 'px-2.5 py-1 text-sm rounded-md',
+        lg: 'px-3 py-1.5 text-base rounded-lg',
       },
     },
     defaultVariants: {
@@ -25,29 +28,31 @@ const badgeVariants = cva(
       size: 'md',
     },
   }
-);
+)
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
+  extends HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {
-  icon?: React.ReactNode;
-  dot?: boolean;
+  icon?: React.ReactNode
+  dot?: boolean
 }
 
-export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant, size, icon, dot, children, ...props }, ref) => {
     return (
       <span
         ref={ref}
-        className={badgeVariants({ variant, size, className })}
+        className={cn(badgeVariants({ variant, size, className }))}
         {...props}
       >
-        {dot && <span className="w-2 h-2 rounded-full bg-current mr-1.5" />}
-        {icon && <span className="mr-1.5">{icon}</span>}
+        {dot && (
+          <span className="mr-1.5 h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+        )}
+        {icon && <span className="mr-1">{icon}</span>}
         {children}
       </span>
-    );
+    )
   }
-);
+)
 
-Badge.displayName = 'Badge';
+Badge.displayName = 'Badge'

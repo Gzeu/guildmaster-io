@@ -1,8 +1,11 @@
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+'use client'
+
+import { cva, type VariantProps } from 'class-variance-authority'
+import { HTMLAttributes, forwardRef } from 'react'
+import { cn } from '@/lib/utils'
 
 const progressVariants = cva(
-  'relative overflow-hidden rounded-full bg-dark-bg-tertiary',
+  'relative w-full overflow-hidden rounded-full bg-dark-card',
   {
     variants: {
       size: {
@@ -15,17 +18,17 @@ const progressVariants = cva(
       size: 'md',
     },
   }
-);
+)
 
 const progressBarVariants = cva(
-  'h-full rounded-full transition-all duration-500 ease-out',
+  'h-full transition-all duration-500 ease-out rounded-full',
   {
     variants: {
       variant: {
         default: 'bg-gradient-to-r from-primary-500 to-accent-cyan',
-        success: 'bg-gradient-to-r from-success-DEFAULT to-green-400',
-        warning: 'bg-gradient-to-r from-warning-DEFAULT to-orange-400',
-        error: 'bg-gradient-to-r from-error-DEFAULT to-red-400',
+        success: 'bg-gradient-to-r from-success-DEFAULT to-success-light',
+        warning: 'bg-gradient-to-r from-warning-DEFAULT to-warning-light',
+        error: 'bg-gradient-to-r from-error-DEFAULT to-error-light',
       },
       animated: {
         true: 'animate-pulse',
@@ -35,39 +38,40 @@ const progressBarVariants = cva(
       variant: 'default',
     },
   }
-);
+)
 
 export interface ProgressProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'size'>,
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>,
     VariantProps<typeof progressVariants> {
-  value: number;
-  max?: number;
-  variant?: 'default' | 'success' | 'warning' | 'error';
-  animated?: boolean;
-  showLabel?: boolean;
+  value: number
+  max?: number
+  variant?: 'default' | 'success' | 'warning' | 'error'
+  animated?: boolean
+  showLabel?: boolean
 }
 
-export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
-  ({ className, size, value, max = 100, variant = 'default', animated, showLabel, ...props }, ref) => {
-    const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
+  ({ className, size, variant, animated, value, max = 100, showLabel, ...props }, ref) => {
+    const percentage = Math.min(Math.max((value / max) * 100, 0), 100)
 
     return (
-      <div ref={ref} {...props}>
+      <div ref={ref} className="w-full">
         {showLabel && (
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-dark-text-secondary">Progress</span>
-            <span className="text-sm font-semibold text-white">{percentage.toFixed(0)}%</span>
+            <span className="text-sm font-medium text-gray-300">Progress</span>
+            <span className="text-sm font-semibold text-primary-400">{Math.round(percentage)}%</span>
           </div>
         )}
-        <div className={progressVariants({ size, className })}>
+        
+        <div className={cn(progressVariants({ size, className }))} {...props}>
           <div
-            className={progressBarVariants({ variant, animated })}
+            className={cn(progressBarVariants({ variant, animated }))}
             style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
-    );
+    )
   }
-);
+)
 
-Progress.displayName = 'Progress';
+Progress.displayName = 'Progress'
