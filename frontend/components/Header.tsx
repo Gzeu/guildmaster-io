@@ -4,10 +4,21 @@ import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks/account/useGetIsLog
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo'
 import { logout } from '@multiversx/sdk-dapp/utils/logout'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const NAV_LINKS = [
+  { href: '/', label: 'Dashboard' },
+  { href: '/staking', label: 'Staking' },
+  { href: '/protocols', label: 'Protocols' },
+  { href: '/analytics', label: 'Analytics' },
+  { href: '/portfolio', label: 'Portfolio', authOnly: true },
+  { href: '/alerts', label: 'Alerts' },
+]
 
 export function Header() {
   const isLoggedIn = useGetIsLoggedIn()
   const { address } = useGetAccountInfo()
+  const pathname = usePathname()
 
   const handleLogout = () => {
     logout(window.location.origin)
@@ -30,24 +41,27 @@ export function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="hover:text-primary-500 transition-colors">
-              Dashboard
-            </Link>
-            <Link href="/staking" className="hover:text-primary-500 transition-colors">
-              Staking
-            </Link>
-            <Link href="/protocols" className="hover:text-primary-500 transition-colors">
-              Protocols
-            </Link>
-            <Link href="/analytics" className="hover:text-primary-500 transition-colors">
-              Analytics
-            </Link>
+            {NAV_LINKS.filter((link) => !link.authOnly || isLoggedIn).map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`transition-colors ${
+                  pathname === link.href
+                    ? 'text-primary-400 font-semibold'
+                    : 'hover:text-primary-500 text-gray-300'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           <div>
             {isLoggedIn ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-400">{shortenAddress(address)}</span>
+                <span className="text-sm text-gray-400 font-mono">
+                  {shortenAddress(address)}
+                </span>
                 <button onClick={handleLogout} className="btn-secondary text-sm">
                   Disconnect
                 </button>
